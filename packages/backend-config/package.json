@@ -1,0 +1,19 @@
+{
+  "name": "@repo/backend-config",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "exports": {
+   "./config" :"./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@repo/typescript-config": "*"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}
