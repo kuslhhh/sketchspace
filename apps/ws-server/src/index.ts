@@ -1,6 +1,7 @@
 import { WebSocketServer } from "ws"
+import jwt, { JwtPayload } from "jsonwebtoken"
 import { JWT_SECRET } from "@repo/backend-config/config"
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import { db } from "@repo/db-config/db"
 const wss = new WebSocketServer({ port: 8081 });
 
 wss.on('connection', (ws, request) => {

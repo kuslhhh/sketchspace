@@ -4,8 +4,7 @@
   "type": "module",
   "private": true,
   "exports": {
-   "./config" : "./src/index.ts",
-   "./schema2" : "./src/schema.ts"
+   "./config" : "./src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

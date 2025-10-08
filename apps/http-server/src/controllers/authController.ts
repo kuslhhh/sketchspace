@@ -1,26 +1,28 @@
 import { Request, Response } from "express"
-import { signinSchema, signupSchema } from "@repo/backend-config/schema2"
+import { signinSchema, signupSchema } from "@repo/common-config/schema"
+import { prisma } from "@repo/db-config/db"
 import bcrypt from "bcryptjs"
 import { generateToken } from "../utils/tokens.js"
-
-const users: any[] = []
 
 export const signup = async (req: Request, res: Response) => {
    try {
       const data = signupSchema.parse(req.body)
-      const existing = users.find((u) => u.email === data.email)
+      const existing = await prisma.user.findUnique({
+         where: { email: data.email }
+      })
       if (existing) return res.status(400).json({ message: "User already exists" })
 
       const hashedPassword = await bcrypt.hash(data.password, 10)
-      const newUser = {
-         id: Date.now().toString(),
-         ...data,
-         password: hashedPassword
-      }
-      users.push(newUser)
+      const newUser = prisma.user.create({
+         data: {
+            username: data.username,
+            email: data.email,
+            password: hashedPassword
+         }
+      })
       return res.status(201).json({
          message: "Signup successful",
-         user: { id: newUser.id, username: newUser.username, email: newUser.email },
+
       })
    } catch (e: any) {
       res.status(400).json({ message: e.errors || e.message })
