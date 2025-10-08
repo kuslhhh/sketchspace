@@ -1,39 +1,39 @@
-generator client {
-   provider = "prisma-client-js"
-}
+   generator client {
+      provider = "prisma-client-js"
+   }
 
-datasource db {
-   provider = "postgresql"
-   url      = env("DATABASE_URL")
-}
+   datasource db {
+      provider = "postgresql"
+      url      = env("DATABASE_URL")
+   }
 
-model User {
-   userId    String   @id @default(uuid())
-   username  String
-   email     String   @unique
-   password  String
-   photo     String?
-   createdAt DateTime @default(now())
-   updatedAt DateTime @updatedAt
-   rooms     Room[]
-   chats     Chat[]
-}
+   model User {
+      userId    String   @id @default(uuid())
+      username  String
+      email     String   @unique
+      password  String
+      photo     String?
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt
+      rooms     Room[]
+      chats     Chat[]
+   }
 
-model Room {
-   id        Int      @id @default(autoincrement())
-   slug      String   @unique
-   adminId   String
-   admin     User     @relation(fields: [adminId], references: [userId])
-   chats     Chat[]
-   createdAt DateTime @default(now())
-   updatedAt DateTime @updatedAt
-}
+   model Room {
+      id        Int      @id @default(autoincrement())
+      slug      String   @unique
+      adminId   String
+      admin     User     @relation(fields: [adminId], references: [userId])
+      chats     Chat[]
+      createdAt DateTime @default(now())
+      updatedAt DateTime @updatedAt
+   }
 
-model Chat {
-   id      Int    @id @default(autoincrement())
-   roomId  Int
-   message String
-   userId  String
-   room    Room   @relation(fields: [roomId], references: [id])
-   user    User   @relation(fields: [userId], references: [userId])
-}
+   model Chat {
+      id      Int    @id @default(autoincrement())
+      roomId  Int
+      message String
+      userId  String
+      room    Room   @relation(fields: [roomId], references: [id])
+      user    User   @relation(fields: [userId], references: [userId])
+   }
