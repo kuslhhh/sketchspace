@@ -26,6 +26,8 @@
         "zod": "^4.1.12",
       },
       "devDependencies": {
+        "@repo/backend-config": "*",
+        "@repo/common-config": "*",
         "@repo/typescript-config": "*",
         "@types/bun": "latest",
       },
@@ -67,6 +69,8 @@
         "ws": "^8.18.3",
       },
       "devDependencies": {
+        "@repo/backend-config": "*",
+        "@repo/common-config": "*",
         "@repo/typescript-config": "*",
         "@types/bun": "latest",
       },
@@ -81,6 +85,25 @@
       },
       "devDependencies": {
         "@repo/typescript-config": "*",
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "packages/common-config": {
+      "name": "@repo/common-config",
+      "devDependencies": {
+        "@repo/typescript-config": "*",
+        "@types/bun": "latest",
+      },
+      "peerDependencies": {
+        "typescript": "^5",
+      },
+    },
+    "packages/db-config": {
+      "name": "db-config",
+      "devDependencies": {
         "@types/bun": "latest",
       },
       "peerDependencies": {
@@ -278,6 +301,8 @@
     "@parcel/watcher-win32-x64": ["@parcel/watcher-win32-x64@2.5.1", "", { "os": "win32", "cpu": "x64" }, "sha512-9lHBdJITeNR++EvSQVUcaZoWupyHfXe1jZvGZ06O/5MflPcuPLtEphScIBL+AiCWBO46tDSHzWyD0uDmmZqsgA=="],
 
     "@repo/backend-config": ["@repo/backend-config@workspace:packages/backend-config"],
+
+    "@repo/common-config": ["@repo/common-config@workspace:packages/common-config"],
 
     "@repo/eslint-config": ["@repo/eslint-config@workspace:packages/eslint-config"],
 
@@ -480,6 +505,8 @@
     "data-view-byte-length": ["data-view-byte-length@1.0.2", "", { "dependencies": { "call-bound": "^1.0.3", "es-errors": "^1.3.0", "is-data-view": "^1.0.2" } }, "sha512-tuhGbE6CfTM9+5ANGf+oQb72Ky/0+s3xKUpHvShfiz2RxMFgFPjsXuRLBVMtvMs15awe45SRb83D6wH4ew6wlQ=="],
 
     "data-view-byte-offset": ["data-view-byte-offset@1.0.1", "", { "dependencies": { "call-bound": "^1.0.2", "es-errors": "^1.3.0", "is-data-view": "^1.0.1" } }, "sha512-BS8PfmtDGnrgYdOonGZQdLZslWIeCGFP9tpan0hi1Co2Zr2NKADsvGYA8XxuG/4UWgJ6Cjtv+YJnB6MM69QGlQ=="],
+
+    "db-config": ["db-config@workspace:packages/db-config"],
 
     "debug": ["debug@4.4.3", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA=="],
 

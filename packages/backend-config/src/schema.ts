@@ -13,3 +13,7 @@ export const signinSchema = z.object({
    email: z.email("Invalid email"),
    password: z.string().regex(strongPwdRegex, { message: "Password must be 8 characters, include uppercase, lowercase, number and special character, and have no spaces" })
 })
+
+export const roomSchema = z.object({
+   name: z.string().min(3).max(20)
+})

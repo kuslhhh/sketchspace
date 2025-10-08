@@ -4,6 +4,6 @@ import { verifyToken } from "../middleware/authMiddleware.js";
 
 export const userRouter = Router();
 
+userRouter.post("/signup", signup)
 userRouter.post("/signin", signin)
-userRouter.post("/signin", signup)
-userRouter.get("/signin", verifyToken, room)
+userRouter.get("/room", verifyToken, room)

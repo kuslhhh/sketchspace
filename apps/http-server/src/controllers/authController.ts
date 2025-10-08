@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
+import { signinSchema, signupSchema } from "@repo/backend-config/schema2"
 import bcrypt from "bcryptjs"
-import { signinSchema, signupSchema } from "../schemas/authSchema.js"
-import { password } from "bun"
 import { generateToken } from "../utils/tokens.js"
 
 const users: any[] = []
@@ -14,11 +13,15 @@ export const signup = async (req: Request, res: Response) => {
 
       const hashedPassword = await bcrypt.hash(data.password, 10)
       const newUser = {
-         id: Date.now().toString,
+         id: Date.now().toString(),
          ...data,
          password: hashedPassword
       }
       users.push(newUser)
+      return res.status(201).json({
+         message: "Signup successful",
+         user: { id: newUser.id, username: newUser.username, email: newUser.email },
+      })
    } catch (e: any) {
       res.status(400).json({ message: e.errors || e.message })
    }
