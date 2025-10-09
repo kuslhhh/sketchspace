@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 
 export const generateToken = (userId: string | number) => {
    return jwt.sign({ 
-      id: userId 
+      userId: userId 
    }, JWT_SECRET as string, {
       expiresIn: "1d"
    })
