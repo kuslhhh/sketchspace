@@ -29,7 +29,7 @@ export const signup = async (req: Request, res: Response) => {
          maxAge: 7 * 24 * 60 * 60 * 1000,
       })
 
-      res.json({
+      return res.json({
          message: "Signin successful",
          user: {
             id: newUser.userId,
@@ -61,7 +61,7 @@ export const signin = async (req: Request, res: Response) => {
          maxAge: 7 * 24 * 60 * 60 * 1000,
       })
 
-      res.json({
+      return res.json({
          message: "Signin successfull",
          user: {
             id: user.userId,
