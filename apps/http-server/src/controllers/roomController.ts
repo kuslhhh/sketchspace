@@ -61,3 +61,18 @@ export const roomGet = async (req: AuthRequest, res: Response) => {
       messages
    })
 }
+
+export const slug = async (req: AuthRequest, res: Response) => {
+   const slug = req.params.slug;
+
+   const room = await prisma.room.findFirst({
+      where: {
+         slug
+      },
+   });
+
+   res.json({
+      room
+   })
+}
+
