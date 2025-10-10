@@ -3,8 +3,9 @@ import "dotenv/config"
 import cors from "cors"
 import { userRouter } from "./routes/usersRoutes.js";
 import cookieParser from "cookie-parser";
-import { room } from "./controllers/roomController.js";
+import { roomPost } from "./controllers/roomController.js";
 import { verifyToken } from "./middleware/authMiddleware.js";
+import { roomRouter } from "./routes/roomRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 4000
@@ -12,8 +13,8 @@ const PORT = process.env.PORT || 4000
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors())
-app.use("/api", userRouter)
-app.post("/rooms", verifyToken, room)
+app.use("/auth", userRouter)
+app.use("/chat", verifyToken, roomRouter)
 
 
 app.listen(PORT, () => {

@@ -3,7 +3,7 @@ import { prisma } from "@repo/db-config/db";
 import { Response } from "express"
 import { AuthRequest } from "../middleware/authMiddleware.js";
 
-export const room = async (req: AuthRequest, res: Response) => {
+export const roomPost = async (req: AuthRequest, res: Response) => {
 
    try {
       const data = roomSchema.safeParse(req.body);
@@ -42,4 +42,22 @@ export const room = async (req: AuthRequest, res: Response) => {
    } catch (e: any) {
       res.status(401).json({ message: e.message })
    }
+}
+
+export const roomGet = async (req: AuthRequest, res: Response) => {
+   const roomId = Number(req.params.roomId);
+
+   const messages = await prisma.chat.findMany({
+      where: {
+         roomId: roomId
+      },
+      orderBy: {
+         id: "desc"
+      },
+      take: 50
+   });
+
+   res.json({
+      messages
+   })
 }

@@ -1,7 +1,7 @@
 import WebSocket, { WebSocketServer } from "ws"
 import jwt, { decode, JwtPayload } from "jsonwebtoken"
 import { JWT_SECRET } from "@repo/backend-config/config"
-
+import { prisma } from "@repo/db-config/db"
 const PORT = 8081
 
 const wss = new WebSocketServer({ port: PORT });
@@ -16,17 +16,23 @@ interface Users {
 const users: Users[] = []
 
 export const checkUser = (token: string): string | null => {
-   const decoded = jwt.verify(token, JWT_SECRET)
+   try {
 
-   if (typeof decoded == "string") {
+      const decoded = jwt.verify(token, JWT_SECRET)
+
+      if (typeof decoded == "string") {
+         return null;
+      }
+
+      if (!decoded || !decoded.userId) {
+         return null;
+      }
+
+      return decoded.userId;
+   } catch (e: any) {
+      console.error('JWT verification failed: ', e instanceof Error ? e.message : "Unknown error");
       return null;
    }
-
-   if (!decoded || !decoded.userId) {
-      return null;
-   }
-
-   return decoded.userId;
 }
 
 wss.on('connection', (ws, request) => {
@@ -50,7 +56,7 @@ wss.on('connection', (ws, request) => {
       ws
    })
 
-   ws.on('message', (data) => {
+   ws.on('message', async (data) => {
       const parsedData = JSON.parse(data as unknown as string);
 
       if (parsedData.type === "join_room") {
@@ -62,13 +68,20 @@ wss.on('connection', (ws, request) => {
          const user = users.find(x => x.ws === ws);
          if (!user) return;
 
-         user.rooms = user?.rooms.filter(x => x === parsedData)
+         user.rooms = user?.rooms.filter(x => x !== parsedData.roomId)
       }
-
 
       if (parsedData.type === "chat") {
          const roomId = parsedData.roomId;
          const message = parsedData.message;
+
+         await prisma.chat.create({
+            data: {
+               roomId,
+               message,
+               userId
+            }
+         })
 
          users.forEach(user => {
             if (user.rooms.includes(roomId)) {
@@ -80,5 +93,11 @@ wss.on('connection', (ws, request) => {
             }
          })
       }
+      ws.on('close', () => {
+         const index = users.findIndex(x => x.ws === ws);
+         if (index !== -1) {
+            users.splice(index, 1)
+         }
+      })
    })
 })
